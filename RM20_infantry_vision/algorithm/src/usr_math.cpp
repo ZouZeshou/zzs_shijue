@@ -25,7 +25,7 @@ float loop_float_constrain(float input,float min_value,float max_value)
     return input;
 }
 /* @Des:this function is to get the distance of two point
- * @param: img--the image to show
+ * @param:
  * @retval:
  */
 double pointDistance(Point point_1, Point point_2)
@@ -34,6 +34,33 @@ double pointDistance(Point point_1, Point point_2)
     distance = sqrt(pow(static_cast<double>(point_1.x - point_2.x), 2)
                     + pow(static_cast<double>(point_1.y - point_2.y), 2));
     return distance;
+}
+/* @Des:this function is to get the midpoint of two point
+ * @param:
+ * @retval:
+ */
+Point2f mid_point(Point2f point_1, Point2f point_2)
+{
+    Point2f mid_point;
+    mid_point.x = (point_1.x + point_2.x)/2.0f;
+    mid_point.y = (point_1.y + point_2.y)/2.0f;
+    return mid_point;
+}
+/* @Des:this function is to get the absolute angle difference of two points
+ * @param:
+ * @retval:
+ */
+float abs_angle_diff(Point2f point_1, Point2f point_2)
+{
+    float angle;
+    if(point_1.x - point_2.x != 0.0f )
+    {
+        angle = atan2f(point_2.y - point_1.y,point_2.x - point_1.x) * RAD_TO_ANGLE;
+        angle = loop_float_constrain(angle,-90,90);
+        return fabs(angle);
+    }
+    else
+        return 0.0f;
 }
 /* @Des:this function is to find the intersection of two line(p1p2 and p3p4)
  * @param:

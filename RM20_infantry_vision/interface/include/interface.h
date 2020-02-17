@@ -9,12 +9,7 @@ class interface
 public:
     interface();
     ~interface();
-    void send_msg_to_MCU(float target_x,\
-                         float target_y,\
-                         float target_z,\
-                         bool is_small,\
-                         float trans_ratio,\
-                         int16_t  fps);
+    void send_msg_to_MCU(s_vision_data s_send);
     void deal_msg_from_MCU(void);
 public:
     s_detect_t              m_detect;

@@ -1,0 +1,74 @@
+#ifndef ARMOR_PARAM_H
+#define ARMOR_PARAM_H
+typedef struct
+{
+    int GRAY_THRESHOLD;
+    int BGR_THRESHOLD;
+
+    int RED_H_MAX;
+    int RED_H_MIN ;
+    int RED_S_MAX ;
+    int RED_S_MIN ;
+    int RED_V_MAX ;
+    int RED_V_MIN ;
+    int BLUE_H_MAX;
+    int BLUE_H_MIN ;
+    int BLUE_S_MAX ;
+    int BLUE_S_MIN ;
+    int BLUE_V_MAX ;
+    int BLUE_V_MIN ;
+
+    int RED_Y_MAX;
+    int RED_Y_MIN ;
+    int RED_CR_MAX ;
+    int RED_CR_MIN ;
+    int RED_CB_MAX ;
+    int RED_CB_MIN ;
+    int BLUE_Y_MAX;
+    int BLUE_Y_MIN ;
+    int BLUE_CR_MAX ;
+    int BLUE_CR_MIN ;
+    int BLUE_CB_MAX ;
+    int BLUE_CB_MIN ;
+
+    int LIGHTBAR_CONTOUR_MIN_SIZE;
+    int LIGHTBAR_CONTOUR_AREA_MAX;
+    int LIGHTBAR_CONTOUR_AREA_MIN;
+    int LIGHTBAR_CONTOUR_ANGLE_MAX;
+    int LIGHTBAR_CONTOUR_LENGTH_MIN;
+    int LIGHTBAR_CONTOUR_WIDTH_MIN;
+    int LIGHTBAR_CONTOUR_LENGTH_MAX;
+    int LIGHTBAR_CONTOUR_WIDTH_MAX;
+    int LIGHTBAR_CONTOUR_HW_RATIO_MAX;
+    int LIGHTBAR_CONTOUR_HW_RATIO_MIN;
+    int LIGHTBAR_CONTOUR_AREA_RATIO_MIN;
+
+    int ARMOR_ANGLE_DIFF;
+    int ARMOR_LENGTH_DIFF_RATIO;
+    int ARMOR_WIDTH_DIFF_RATIO;
+    int ARMOR_MAX_HORIZONTAL_ANGLE;
+    int ARMOR_AREA_MAX;
+    int ARMOR_AREA_MIN;
+    int ARMOR_HW_RATIO_MAX;
+    int ARMOR_HW_RATIO_MIN;
+
+    int DEPTH_BGR_RED_AREA_BIG;
+    int DEPTH_BGR_RED_AREA_SMALL;
+    int DEPTH_BGR_BLUE_AREA_BIG;
+    int DEPTH_BGR_BLUE_AREA_SMALL;
+    int DEPTH_HSV_RED_AREA_BIG;
+    int DEPTH_HSV_RED_AREA_SMALL;
+    int DEPTH_HSV_BLUE_AREA_BIG;
+    int DEPTH_HSV_BLUE_AREA_SMALL;
+    int DEPTH_YUV_RED_AREA_BIG;
+    int DEPTH_YUV_RED_AREA_SMALL;
+    int DEPTH_YUV_BLUE_AREA_BIG;
+    int DEPTH_YUV_BLUE_AREA_SMALL;
+    int DEPTH_SMALL_ARMOR_HW_RATIO_MAX;
+
+    int LIGHTBAR_REALHEIGHT;
+
+}armor_param_t;
+void armor_param_init();
+extern armor_param_t armor_param;
+#endif // ARMOR_PARAM_H

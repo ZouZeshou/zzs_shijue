@@ -38,9 +38,9 @@ void fan_param_init()
     fan_param.BLUE_CB_MAX = 255;
     fan_param.BLUE_CB_MIN = 90;
 
-    fan_param.ARMOR_CONTOUR_AREA_MAX = 400;
+    fan_param.ARMOR_CONTOUR_AREA_MAX = 700;
     fan_param.ARMOR_CONTOUR_AREA_MIN = 100;
-    fan_param.ARMOR_CONTOUR_LENGTH_MAX = 30;
+    fan_param.ARMOR_CONTOUR_LENGTH_MAX = 50;
     fan_param.ARMOR_CONTOUR_LENGTH_MIN = 10;
     fan_param.ARMOR_CONTOUR_WIDTH_MAX = 20;
     fan_param.ARMOR_CONTOUR_WIDTH_MIN = 4;

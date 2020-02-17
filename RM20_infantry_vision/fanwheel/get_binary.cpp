@@ -48,7 +48,6 @@ Mat fan::get_binary(Mat &src, color_ENUM color,GetLightBarMethod_ENUM method)
         case HSV_METHOD:
         {
             cvtColor(src, src, CV_BGR2HSV);
-            imshow("merge_img",src);
             if(color == RED)
             {
                 inRange(src, Scalar(fan_param.RED_H_MIN, fan_param.RED_S_MIN, fan_param.RED_V_MIN),
@@ -79,7 +78,7 @@ Mat fan::get_binary(Mat &src, color_ENUM color,GetLightBarMethod_ENUM method)
     }
     if (m_is_show_img)
     {
-        namedWindow("binary", WINDOW_NORMAL);
-        imshow("binary", src);
+//        namedWindow("binary", WINDOW_NORMAL);
+//        imshow("binary", src);
     }
 }

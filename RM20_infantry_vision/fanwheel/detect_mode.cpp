@@ -42,18 +42,25 @@ float fan::get_fan_spd()
     if(m_state == 3)
     {
         s_fan_spd.polar_angle_now = atan2(m_target_point.y - m_center_point.y,m_target_point.x - m_center_point.x)*RAD_TO_ANGLE;
-        if(cnt++ >= 10)
+        if(cnt++ >= 1)//40ms
         {
             cnt = 0;
             float ang_diff = s_fan_spd.polar_angle_now - s_fan_spd.polar_angle_last;
             ang_diff = loop_float_constrain(ang_diff,-180.0f,180.0f);
-            s_fan_spd.spd = (ang_diff)/0.1f;
-            m_direction = ang_diff > 0 ? CW:CCW;
-            cout<<"print***********************************************"<<endl;
-            cout<<"rotate_speed: "<<s_fan_spd.spd<<endl;
-            cout<<"m_direction: "<<m_direction<<endl;
-            cout<<"ang_now: "<<s_fan_spd.polar_angle_now<<endl;
-            cout<<"anf_last: "<<s_fan_spd.polar_angle_last<<endl;
+            s_fan_spd.spd = (ang_diff)/0.04f;
+            s_fan_spd.spd_kal1 = kalman1_filter(&m_spd_kal1,s_fan_spd.spd);
+            s_fan_spd.spd_kal2 = kalman1_filter(&m_spd_kal2,s_fan_spd.spd);
+            s_fan_spd.spd = kalman1_filter(&m_spd_kal3,s_fan_spd.spd_kal2);
+                plot_y1 = static_cast<double>(ang_diff);
+            if(ang_diff > 0)
+                m_direction = CW;
+            else if(ang_diff < 0)
+                m_direction = CCW;
+//            cout<<"print***********************************************"<<endl;
+//            cout<<"rotate_speed: "<<s_fan_spd.spd<<endl;
+//            cout<<"m_direction: "<<m_direction<<endl;
+//            cout<<"ang_now: "<<s_fan_spd.polar_angle_now<<endl;
+//            cout<<"anf_last: "<<s_fan_spd.polar_angle_last<<endl;
             s_fan_spd.polar_angle_last = s_fan_spd.polar_angle_now;
         }
     }

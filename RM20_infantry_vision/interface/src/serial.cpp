@@ -26,7 +26,8 @@ Serial::~Serial(){
     close(serial_port);
     cout<<"close serial ok!"<<endl;
 }
-void Serial::sendAdjustValue(const s_vision_data &data){
+void Serial::sendAdjustValue(const s_vision_data &data)
+{
     tdata[0] = 0xA5;
 
     tdata[1] = data.adjustX.uc[0];
@@ -46,17 +47,14 @@ void Serial::sendAdjustValue(const s_vision_data &data){
 
     tdata[13] = data.valid_fps.uc[0];
     tdata[14] = data.valid_fps.uc[1];
-    tdata[15] = data.small_armor_flag.uc[0];
-    tdata[16] = data.small_armor_flag.uc[1];
+    tdata[15] = data.is_find_target;
+    tdata[16] = data.is_big_armor;
 
     tdata[17] = data.trans_ratio.uc[0];
     tdata[18] = data.trans_ratio.uc[1];
     tdata[19] = data.trans_ratio.uc[2];
     tdata[20] = data.trans_ratio.uc[3];
 
-//    std::cout << "adjustX: " <<data.adjustX.f<<" adjustY: "<<data.adjustY.f<<" adjustZ: "<<  data.adjustZ.f <<std::endl;
-//    std::cout<<"compenX= "<<data.compensationX.f<<"  compenY= "<<data.compensationY.f<<std::endl;
-//    std::cout<<std::endl;
     Append_CRC16_Check_Sum(tdata,23);
 //    cout<<"writting data to serial..."<<endl;
     write(serial_port,tdata,23);
@@ -71,25 +69,12 @@ void Serial::get_msg_from_MCU(void)
         return;
 
     bytes = read(serial_port,rdata,7);
-//    timerlast = (double)cv::getTickCount();
     if(rdata[0] = 0xA0 && Verify_CRC8_Check_Sum(rdata,5))
     {
         m_receive_data.id  = rdata[1];
         m_receive_data.mode = rdata[2];
-        m_receive_data.fanwheel_dir = rdata[3];
-        //printf("receive fanwheel_dir:%d\r\n",_infantryinfo.fanwheel_dir);
+        //m_receive_data.is_big_fan = rdata[3];
     }
-//    bytes = read(serial_port,rdata,6);
-////    timerlast = (double)cv::getTickCount();
-//    if(rdata[0] = 0xA0 && Verify_CRC8_Check_Sum(rdata,4)){
-//        _infantryinfo.id  = rdata[1];
-//        _infantryinfo.mode = rdata[2];
-//        //printf("receive fanwheel_dir:%d\r\n",_infantryinfo.fanwheel_dir);
-//    }
-//    ioctl(serial_port, FIONREAD, &bytes);
-//    if(bytes>0){
-//        read(serial_port,rdata,bytes);
-//    }
 }
 
 int Serial::set_disp_mode(int fd,int option){

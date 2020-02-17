@@ -25,7 +25,6 @@ void debug_Settings::set_videowriter_path(string save_path,int image_cols,int im
 {
     if(m_is_save)
     {
-
         //struct timeval tv;
         //gettimeofday(&tv, NULL);
         //string video_name = save_path+to_string(tv.tv_usec)+".avi";
@@ -39,7 +38,7 @@ void debug_Settings::set_videowriter_path(string save_path,int image_cols,int im
         string hour = to_string(ltm->tm_hour);
         string minute = to_string(ltm->tm_min);
         string second = to_string(ltm->tm_sec);
-        string video_name = year + "-" + month + "-" + day + "-" + hour + "-" + minute  + "-" + second + ".avi";
+        string video_name = save_path + year + "-" + month + "-" + day + "-" + hour + ":" + minute  + ":" + second + ".avi";
         c_videowrite.open(video_name,CV_FOURCC('M','J','P','G'),25.0,Size(image_cols,image_rows), true);
         if(!c_videowrite.isOpened())
         {
