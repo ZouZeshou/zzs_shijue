@@ -3,13 +3,14 @@
 #include "math.h"
 #include "main/global.h"
 #include "algorithm/include/kalman_filter.hpp"
+#include "plot/mainwindow.h"
 class fan
 {
 public:
     fan();
     ~fan();
 	void          param_init();
-    void          run(Mat &src, color_ENUM color,GetLightBarMethod_ENUM method,bool is_show_img);
+    bool          run(Mat &src, e_vision_mode_t mode, color_ENUM color, GetLightBarMethod_ENUM method, bool is_show_img);
     void          adjust_param(uint8_t type,GetLightBarMethod_ENUM method);
     Mat           get_binary(Mat &src, color_ENUM color,GetLightBarMethod_ENUM method);
     int           find_armors(const Mat &src);
@@ -19,9 +20,27 @@ public:
     bool          find_roi_of_R();
     bool          find_R_by_contour(const Mat &src);
     bool          find_R_by_crosspoint();
-    bool          get_predict_point(float shoot_delay);
+    bool          get_predict_point(e_vision_mode_t mode,float shoot_delay);
     int           detect_state();
     float         get_fan_spd();
+    float         get_predict_angle_by_test(float shoot_delay);
+    float         get_predict_angle_by_predict(float shoot_delay,uint8_t fps);
+    void          get_spd_vector(float spd,vector<float> &v_spd,uint8_t v_num);
+    uint          get_start_section_num(uint8_t max_error);
+    uint          get_the_seclector_by_test(float spd_now,float spd_diff);
+    float         get_sec_by_time(float sec_last,uint8_t fps);
+    float         get_sec_by_kal3(uint8_t max_error);
+    float         get_sec_by_slope(uint8_t max_error);
+    float         continue_sec_1(float sec);
+    float         continue_sec_2(float sec);
+    fan_spd_t                      s_fan_spd;//the struct of calculate fanwheel speed
+    float                          m_predict_angle;//the angle is decided by shoot delay
+    float                          m_shoot_angle;//the angle final to shoot
+    float                          m_test_angle1;//
+    float                          m_test_angle2;//
+    Point2f                        m_shoot_point;//the point send to stm32
+    Point2f                        m_target_point;//the center point of final armor
+    Mat                            m_debug_img;//the image to show debug message
 private:
     bool                           m_is_show_img;//is show image
     Rect                           m_roi_rect;
@@ -33,28 +52,25 @@ private:
     vector<RotatedRect>            m_target_armors;//目标装甲板
     vector<RotatedRect>            m_flow_strips;//the candidate strip
     Mat                            m_roi_img;//roi image
-    Mat                            m_debug_img;//the image to show debug message
-    Point2f                        m_target_point;//the center point of final armor
     Point2f                        m_last_target_point;
-    Point2f                        m_shoot_point;//the point send to stm32
     RotatedRect                    m_center_ROI;//能量机关中心候选区
     Point2f                        m_center_point;//the center point of fanwheel
     e_rotation_t                   m_direction;//the rotate direction of fanwheel
-    float                          m_predict_angle;//the angle is decided by shoot delay
-    kalman1_state                  m_angdiff_kal;
+    kalman1_state                  m_spd_kal1;
+    kalman1_state                  m_spd_kal2;
+    kalman1_state                  m_spd_kal3;
+    kalman1_state                  m_ang_kal1;
+    kalman1_state                  m_ang_kal2;
+    kalman1_state                  m_ang_kal3;
+    kalman1_state                  m_slope_kal1;
+    kalman1_state                  m_slope_kal2;
+    kalman1_state                  m_slope_kal3;
     bool                           is_find_R;//the signal to judge the mode
     int                            m_state;//1--lose traget 2--target change 3-- catch target
-    fan_spd_t                      s_fan_spd;//the struct of calculate fanwheel speed
-    float                          m_rotate_spd[3];
-    bool                           is_big_fan;//is big fanwheel
+    vector<float>                  v_spd_kal1;
+    vector<float>                  v_spd_kal3;
 };
-
-void get_spd_vector(float spd,float spd_vector[]);
-uint get_the_seclector(float spd_vector[]);
 float get_the_sin_value_by_section(float sin_val[16]);
-float get_predict_angle(uint sec_num,float shoot_delay);
-
-
 
 
 #endif // FAN_CPP

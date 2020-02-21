@@ -47,8 +47,11 @@ bool fan::find_R_by_contour(const Mat &src)
         if(m_is_show_img)
         {
            circle(m_debug_img, m_center_point, 2, Scalar(50, 50, 255), 2, 8);
-           namedWindow("R", WINDOW_NORMAL);
-           imshow("R", src_bin);
+           if(IS_CREATE_WINDOW)
+           {
+              namedWindow("R", WINDOW_NORMAL);
+              imshow("R", src_bin);
+           }
            //cout<<"m_armors.size() :"<<m_armors.size() <<endl;
            //cout<<"center_x:"<<m_center_point.x<<endl;
            //cout<<"center_y:"<<m_center_point.y<<endl;
@@ -78,8 +81,9 @@ bool fan::find_R_by_crosspoint()
        circle(m_debug_img, m_armors[1].center, 2, Scalar(255, 50, 50), 2, 8);
        circle(m_debug_img, m_armors[2].center, 2, Scalar(255, 50, 50), 2, 8);
        circle(m_debug_img, m_center_point, 2, Scalar(50, 50, 255), 2, 8);
-       cout<<"m_armors.size() :"<<m_armors.size() <<endl;
-       cout<<"center_x:"<<m_center_point.x<<endl;
-       cout<<"center_y:"<<m_center_point.y<<endl;
+//       cout<<"m_armors.size() :"<<m_armors.size() <<endl;
+//       cout<<"center_x:"<<m_center_point.x<<endl;
+//       cout<<"center_y:"<<m_center_point.y<<endl;
     }
+    return true;
 }

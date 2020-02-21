@@ -32,8 +32,11 @@ bool fan::find_flow_fans(const Mat &src)
     {
         for(auto &flow_fan:m_flow_strip_fans)
             ellipse(m_debug_img, flow_fan, CV_RGB(0, 0,255 ), 1, 8);
-        namedWindow("flow_fan", WINDOW_NORMAL);
-        imshow("flow_fan", src_bin);
+        if(IS_CREATE_WINDOW)
+        {
+            namedWindow("flow_fan", WINDOW_NORMAL);
+            imshow("flow_fan", src_bin);
+        }
     }
     if (m_flow_strip_fans.empty())
         return false;
@@ -73,9 +76,6 @@ bool fan::find_armor_in_flow_area()
         if(m_is_show_img)
         {
             ellipse(m_debug_img, m_target_armor, CV_RGB(255, 0, 0), 1, 8);
-            circle(m_debug_img, m_target_point,3, CV_RGB(255, 0, 0), 1, 8);
-            //cout<<"armor_x:"<<m_target_point.x<<endl;
-            //cout<<"armor_y:"<<m_target_point.y<<endl;
         }
         return true;
     }

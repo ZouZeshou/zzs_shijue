@@ -10,44 +10,10 @@ interface::~interface(){};
  * @param: fps -- the class of picture
  * @retval:
  */
-void interface::send_msg_to_MCU(float target_x,\
-                                float target_y,\
-                                float target_z,\
-                                bool is_small,\
-                                float trans_ratio,\
-                                int16_t  fps
-                                )
+void interface::send_msg_to_MCU(s_vision_data s_send)
 {
-    static float last_center_x = 0.0f, last_center_y = 0.0f, last_center_z = 0.0f;
-    static uint16_t cnt = 0;
-
-    if(target_x > 0.0f)
-    {
-       m_vision_data.adjustX.f = target_x;
-       m_vision_data.adjustY.f = target_y;
-       m_vision_data.adjustZ.f = target_z;
-    }
-//    printf("mode = %d\r\n", infantry_info.mode);
-    if(last_center_x == m_vision_data.adjustX.f)
-    {
-        cnt ++;
-        if(cnt > 40)
-        {
-            m_vision_data.adjustX.f = 0.0f;
-            m_vision_data.adjustY.f = 0.0f;
-            m_vision_data.adjustZ.f = 0.0f;
-            cnt = 0;
-        }
-    }
-    last_center_x = m_vision_data.adjustX.f;
-    last_center_y = m_vision_data.adjustY.f;
-    last_center_z = m_vision_data.adjustZ.f;
-    m_vision_data.small_armor_flag.d_16 = is_small;
-    m_vision_data.valid_fps.d_16 = fps;
-    m_vision_data.trans_ratio.f = trans_ratio;
 //    cout<<"the send data is ready,waititng for send"<<endl;
-    m_serial.sendAdjustValue(m_vision_data);
-
+    m_serial.sendAdjustValue(s_send);
 }
 /* @Des:this function is to end message to MCU
  * @param: *s_data -- the receive struct
@@ -58,18 +24,28 @@ void interface::deal_msg_from_MCU(void)
     m_serial.get_msg_from_MCU();
     if(m_serial.m_receive_data.id > 10)
     {
-        m_detect.color = BLUE;
-    }
-    else
-    {
         m_detect.color = RED;
     }
-    if(m_serial.m_receive_data.mode == 1)
+    else if(m_serial.m_receive_data.id > 0)
     {
-        m_detect.mode = fanwheel;
+        m_detect.color = BLUE;
     }
-    else
+    switch(m_serial.m_receive_data.mode)
     {
-        m_detect.mode = robot;
+        case 1:
+           m_detect.mode = robot;
+           break;
+        case 2:
+           m_detect.mode = small_fan;
+           break;
+        case 3:
+           m_detect.mode = big_fan;
+           break;
+        case 4:
+           m_detect.mode = gyro;
+           break;
+        default:
+            break;
     }
+
 }

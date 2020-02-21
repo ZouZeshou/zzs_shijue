@@ -32,7 +32,6 @@ HIKCamera::~HIKCamera()
 }
 void __stdcall ImageCallBackEx(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser)
 {
-    static int i = 0;
     if (pFrameInfo)
     {
         Call_back_image=Mat(pFrameInfo->nHeight,pFrameInfo->nWidth,CV_8U,pData);

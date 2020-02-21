@@ -18,17 +18,17 @@ void frame::turn_on_videowriter(bool is_turn_on)
 }
 
 /* @Des:this function is to choose the frame source(from camera or local video)
- * @param:is_camera -- frame frome camera or video(camera --true video--false)
+ * @param:is_video -- frame from camera or video(camera --false video--true)
  * @param:video_read_path -- the path of local video which used
  * @retval:void
  */
-void frame::choose_frame_src(bool is_camera,string video_read_path)
+void frame::choose_frame_src(bool is_video,string video_read_path)
 {
-    m_is_camera = is_camera;
+    m_is_video = is_video;
     m_video_read_path = video_read_path;
-    cout << "frame source is from camera :"<< m_is_camera <<endl;
+    cout << "frame source is from video :"<< m_is_video <<endl;
 
-    if(m_is_camera == true)
+    if(!m_is_video)
     {
         c_hik_camera.SettingParas();
     }
@@ -43,13 +43,13 @@ void frame::choose_frame_src(bool is_camera,string video_read_path)
 }
 
 /* @Des:this function is to get the frame to m_frame
- * @param:is_camera -- frame frome camera or video(camera --true video--false)
+ * @param:is_video -- frame frome camera or video(camera --true video--false)
  * @param:video_read_path -- the path of local video which used
  * @retval:void
  */
 Mat frame::get_frame()
 {
-    if(m_is_camera == true)
+    if(!m_is_video)
     {
         c_hik_camera.getFrame();
         m_frame = c_hik_camera.raw_image;
@@ -59,7 +59,6 @@ Mat frame::get_frame()
         c_video >> m_frame;
     }
     c_debug.write_video(m_frame);
-
     return m_frame;
 }
 /* @Des:this function is to calculate the framerate of get image
@@ -95,7 +94,7 @@ void frame::get_img_fps()
  * @param:no
  * @retval:void
  */
-void frame::calculate_framerate(float center_x)
+int16_t frame::calculate_framerate(bool is_find_target)
 {
     static int  init_mark = 0;
     if(init_mark==0)
@@ -110,7 +109,7 @@ void frame::calculate_framerate(float center_x)
     else
     {
         s_main_time.fps++;
-        if(center_x > 0.0f)
+        if(is_find_target)
             s_main_time.valid_fps++;
         s_main_time.currentTime = static_cast<double>(getTickCount());
         if((s_main_time.currentTime - s_main_time.previousTime) / getTickFrequency() > 1.0)
@@ -123,10 +122,10 @@ void frame::calculate_framerate(float center_x)
             s_main_time.valid_fps = 0;
         }
     }
-
+    return static_cast<int16_t>(s_main_time.send_fps);
 }
 /* @Des:this function is to transfer video to picture
- * @param:is_camera -- frame frome camera or video(camera --true video--false)
+ * @param:is_video -- frame frome camera or video(camera --true video--false)
  * @param:video_read_path -- the path of local video which used
  * @retval:void
  */
@@ -136,7 +135,7 @@ bool frame::video_to_picture(Mat frame,string picture_save_path,uint8_t time_gap
     static uint picture_cnt=0;
     if(is_transfer && !frame.empty())
     {
-        if(time_gap==0) return 0;
+        if(time_gap==0) return false;
         if(cnt++ > time_gap)
         {
             cnt = 0;
@@ -145,8 +144,8 @@ bool frame::video_to_picture(Mat frame,string picture_save_path,uint8_t time_gap
             //string picture_name = picture_save_path+to_string(tv.tv_sec * 1000000 + tv.tv_usec)+".PNG";
             string picture_name = picture_save_path+to_string(picture_cnt++)+".PNG";
             imwrite(picture_name,frame);
+            return true;
         }
-
     }
-
+    return false;
 }

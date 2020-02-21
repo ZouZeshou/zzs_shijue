@@ -52,8 +52,11 @@ bool fan::find_flow_strip(const Mat &src)
     {
         for(auto &flow_strip:m_flow_strips)
             ellipse(m_debug_img, flow_strip, CV_RGB(255,255 , 255), 1, 8);
-        namedWindow("flow_strip", WINDOW_NORMAL);
-        imshow("flow_strip", src_bin);
+        if(IS_CREATE_WINDOW)
+        {
+            namedWindow("flow_strip", WINDOW_NORMAL);
+            imshow("flow_strip", src_bin);
+        }
     }
     if (m_flow_strips.empty()|| m_flow_strips.size() > 1)
         return false;

@@ -47,8 +47,11 @@ int fan::find_armors(const Mat &src)
     {
         for(auto &armor:m_armors)
             ellipse(m_debug_img, armor, CV_RGB(0, 255, 0), 2, 8);
-        namedWindow("armor", WINDOW_NORMAL);
-        imshow("armor", src_bin);
+        if(IS_CREATE_WINDOW)
+        {
+            namedWindow("armor", WINDOW_NORMAL);
+            imshow("armor", src_bin);
+        }
     }
     return static_cast<int>(m_armors.size());
 }

@@ -1,11 +1,12 @@
+QT += core gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 TEMPLATE = app
 CONFIG += console c++11
-CONFIG -= app_bundle
-CONFIG -= qt
+#CONFIG -= app_bundle
+#CONFIG -= qt
 
 SOURCES += \
     algorithm/src/kalman_filter.cpp \
-    armor_detect/armor_detect.cpp \
     get_frame/camera/src/hikcamera.cpp \
     get_frame/debug/debug_settings.cpp \
     get_frame/frame/frame.cpp \
@@ -16,7 +17,6 @@ SOURCES += \
     watchdog/WatchDog.cpp \
     algorithm/src/usr_math.cpp \
     fanwheel/fan_middleware.cpp \
-    fanwheel/fan.cpp \
     fanwheel/get_binary.cpp \
     fanwheel/find_armor.cpp \
     fanwheel/find_flow_strip_fan.cpp \
@@ -25,7 +25,20 @@ SOURCES += \
     fanwheel/get_predict.cpp \
     fanwheel/fan_param.cpp \
     main/thread.cpp \
-    fanwheel/detect_mode.cpp
+    armor_detect/binary.cpp \
+    armor_detect/lightbar.cpp \
+    armor_detect/distance.cpp \
+    armor_detect/run_armor.cpp \
+    fanwheel/run_fan.cpp \
+    armor_detect/armor_param.cpp \
+    armor_detect/armor_middleware.cpp \
+    plot/mainwindow.cpp \
+    plot/qcustomplot.cpp \
+    armor_detect/get_target_armor.cpp \
+    fanwheel/predict_planA.cpp \
+    fanwheel/predict_planB.cpp \
+    fanwheel/predict_middleware.cpp \
+    fanwheel/get_speed.cpp
 
 
 LIBS += /usr/local/lib/libopencv_*\
@@ -56,8 +69,14 @@ HEADERS += \
     fanwheel/fan_middleware.h \
     fanwheel/fan.hpp \
     fanwheel/fan_param.h \
-    main/thread.h
+    main/thread.h \
+    armor_detect/armor_param.h \
+    plot/mainwindow.h \
+    plot/qcustomplot.h
 
 
 INCLUDEPATH += $$PWD/get_frame/camera/include
+
+FORMS += \
+    plot/mainwindow.ui
 
