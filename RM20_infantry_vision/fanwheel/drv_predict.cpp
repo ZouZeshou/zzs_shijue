@@ -2,51 +2,9 @@
 #include "fanwheel/fan_middleware.h"
 #include "fanwheel/fan_param.h"
 #include "algorithm/include/usr_math.h"
-void fan::get_spd_vector(float spd,vector<float> &v_spd,uint8_t v_num)
+float fan::get_the_seclector_by_test(float spd_compare,float spd_diff)
 {
-    if(v_spd.size() == v_num)
-    {
-        for(size_t i = 0;i<v_num -1;i++)
-            swap(v_spd[i],v_spd[i+1]);
-        v_spd.pop_back();
-    }
-    v_spd.push_back(spd);
-}
-uint fan::get_start_section_num(uint8_t max_error)
-{
-    if(v_spd_kal3.size() == 5)
-    {
-        float mid_value = (v_spd_kal3[0]+v_spd_kal3[1]+\
-                            v_spd_kal3[2]+v_spd_kal3[3]+v_spd_kal3[4])/5.0f;
-        //float slope = fabs(v_spd_kal3[13]+v_spd_kal3[14]) - fabs(v_spd_kal3[12]+v_spd_kal3[11]);
-        float slope = fabs(v_spd_kal3[4]) - fabs(v_spd_kal3[3]);
-        float slope_1 = kalman1_filter(&m_slope_kal1,slope);
-        float slope_2 = kalman1_filter(&m_slope_kal2,slope);
-        float slope_3 = kalman1_filter(&m_slope_kal3,slope);
-//        plot_y1 = static_cast<double>(slope);
-//        plot_y2 = static_cast<double>(slope_1);
-//        plot_y3 = static_cast<double>(slope_2);
-//        plot_y4 = static_cast<double>(slope_3);
-
-        for(size_t i=0;i<5;i++)
-        {
-            if(v_spd_kal3[i] == 0.0f)
-                return 0;
-            if(i < 4)
-            {
-                float delta = fabs(v_spd_kal3[i] - mid_value);
-                if(delta > max_error)
-                    return 0;
-            }
-        }
-        float spd_compare = (fabs(mid_value) - 75)/fabs(45.0f)*90/60.f;//set the model is 1
-        return get_the_seclector_by_test(spd_compare,slope);
-    }
-    return 0;
-}
-uint fan::get_the_seclector_by_test(float spd_compare,float spd_diff)
-{
-    uint sec;
+    float sec = 0.0f;
     /************** select the block(1-16),i devide the sin curve to 16 section *************/
     static float sin_value[16];
     get_the_sin_value_by_section(sin_value);

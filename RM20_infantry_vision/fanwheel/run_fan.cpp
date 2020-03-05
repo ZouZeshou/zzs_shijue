@@ -2,26 +2,7 @@
 #include "fanwheel/fan_middleware.h"
 #include "algorithm/include/usr_math.h"
 #include "fanwheel/fan_param.h"
-/* @Des:this function
- * @param:
- * @retval:
- */
-fan::fan()
-{
-    fan_param_init();
-    kalman1_init(&m_spd_kal1,0, 150, 1, 5);
-    kalman1_init(&m_spd_kal2,0, 150, 1, 50);
-    kalman1_init(&m_spd_kal3,0, 150, 1, 50);
-    kalman1_init(&m_ang_kal1,0, 150, 1, 10);
-    kalman1_init(&m_ang_kal2,0, 150, 1, 1);
-    kalman1_init(&m_ang_kal3,0, 150, 1, 5);
-    kalman1_init(&m_slope_kal1,0, 20, 1, 5);
-    kalman1_init(&m_slope_kal2,0, 150, 1, 50);
-    kalman1_init(&m_slope_kal3,0, 150, 1, 50);
-    v_spd_kal1.clear();
-    v_spd_kal3.clear();
-}
-fan::~fan(){};
+#include "algorithm/include/fan_spd_filter.h"
 /* @Des:this function is the run of find fanwheel
  * @param:Mat src--raw image
  * @retval:
@@ -57,7 +38,7 @@ bool fan::run(Mat &src,\
             }
         }
     }
-    detect_state();
+    get_state();
     get_fan_spd();
     get_predict_point(mode,0.4f);
     if(m_is_show_img)

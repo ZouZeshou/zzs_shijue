@@ -28,7 +28,7 @@ bool armor_detect::run(Mat &src,color_ENUM color,GetLightBarMethod_ENUM method,b
     m_roi_rect.height = 840;//480
     m_roi_img = src(m_roi_rect);
     m_debug_img = m_roi_img.clone();
-    adjust_param(3,method);
+    adjust_param(0,method);
     get_binary_img(m_roi_img,color,method);/*true--debug*/
     if(get_lightbar(m_roi_img))
     {

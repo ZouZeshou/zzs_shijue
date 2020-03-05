@@ -7,11 +7,9 @@ int main()
     //thread test(&task::test,&c_task);
 #ifdef DEBUG_PLOT
     thread plot(&task::plot,&c_task);
-    plot.join();
 #endif
     get_image.join();
     deal_image.join();
     //test.join();
-
     return 1;
 }

@@ -41,7 +41,24 @@ void MainWindow::addPoint(double x, int y)
         break;
     case 3:
         qv_x4.push_back(x);
-        qv_t4.push_back(t+0.4);
+        qv_t4.push_back(t);
+        break;
+    case 4:
+        qv_x5.push_back(x);
+        qv_t5.push_back(t);
+        break;
+
+    case 5:
+        qv_x6.push_back(x);
+        qv_t6.push_back(t);
+        break;
+    case 6:
+        qv_x7.push_back(x);
+        qv_t7.push_back(t-0.4);
+        break;
+    case 7:
+        qv_x8.push_back(x);
+        qv_t8.push_back(t);
         break;
 
     }
@@ -66,6 +83,26 @@ void MainWindow::addPoint(double x, int y)
         qv_x4.pop_front();
         qv_t4.pop_front();
     }
+    if(qv_x5.size()>history_num_)
+    {
+        qv_x5.pop_front();
+        qv_t5.pop_front();
+    }
+    if(qv_x6.size()>history_num_)
+    {
+        qv_x6.pop_front();
+        qv_t6.pop_front();
+    }
+    if(qv_x7.size()>history_num_)
+    {
+        qv_x7.pop_front();
+        qv_t7.pop_front();
+    }
+    if(qv_x8.size()>history_num_)
+    {
+        qv_x8.pop_front();
+        qv_t8.pop_front();
+    }
 
     if(mouse_flag_ == 0)
     {
@@ -82,6 +119,10 @@ void MainWindow::plot()
     ui->plot->graph(1)->setData(qv_t2, qv_y);
     ui->plot->graph(2)->setData(qv_t3, qv_x3);
     ui->plot->graph(3)->setData(qv_t4, qv_x4);
+    ui->plot->graph(4)->setData(qv_t5, qv_x5);
+    ui->plot->graph(5)->setData(qv_t6, qv_x6);
+    ui->plot->graph(6)->setData(qv_t7, qv_x7);
+    ui->plot->graph(7)->setData(qv_t8, qv_x8);
     ui->plot->replot();
 }
 
@@ -117,12 +158,20 @@ void MainWindow::setupRealtimeDataDemo(QCustomPlot *customPlot)
   demoName = "Real Time Data Demo";
   customPlot->addGraph(); // red line
   customPlot->graph(0)->setPen(QPen(QColor(255, 0, 0)));
+  customPlot->addGraph(); // orange line
+  customPlot->graph(1)->setPen(QPen(QColor(255, 165, 0)));
+  customPlot->addGraph(); // yellow line
+  customPlot->graph(2)->setPen(QPen(QColor(255, 255, 0)));
   customPlot->addGraph(); // green line
-  customPlot->graph(1)->setPen(QPen(QColor(0, 255, 0)));
+  customPlot->graph(3)->setPen(QPen(QColor(0, 255, 0)));
+  customPlot->addGraph(); // cyan line
+  customPlot->graph(4)->setPen(QPen(QColor(0, 255, 255)));
   customPlot->addGraph(); // blue line
-  customPlot->graph(2)->setPen(QPen(QColor(0, 0, 255)));
+  customPlot->graph(5)->setPen(QPen(QColor(0, 0, 255)));
+  customPlot->addGraph(); // purpel line
+  customPlot->graph(6)->setPen(QPen(QColor(128, 0, 128)));
   customPlot->addGraph(); // black line
-  customPlot->graph(3)->setPen(QPen(QColor(0, 0, 0)));
+  customPlot->graph(7)->setPen(QPen(QColor(0, 0, 0)));
 
   QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
   timeTicker->setTimeFormat("%h:%m:%s");
@@ -152,6 +201,10 @@ void MainWindow::realtimeDataSlot()
         addPoint(plot_y2,1);
         addPoint(plot_y3,2);
         addPoint(plot_y4,3);
+        addPoint(plot_y5,4);
+        addPoint(plot_y6,5);
+        addPoint(plot_y7,6);
+        addPoint(plot_y8,7);
     }
     //cv::resize(plot_frame, plot_frame, Size(plot_frame.cols*0.5, plot_frame.rows*0.5));
     Mat src = plot_frame.clone();

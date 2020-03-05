@@ -14,7 +14,7 @@ using namespace cv;
 /*save video*/
 #define PICTURE_PATH     "/home/zzs/zzs_shijue/RM20_infantry_vision/picture_save/b4.PNG"
 #define PICTURE_SAVE_PATH  "/home/zzs/zzs_shijue/RM20_infantry_vision/picture_save/b"
-#define VIDEO_READ_PATH  "/home/zzs/zzs_shijue/RM20_infantry_vision/video_save/test energy speed/大符(逆).avi"
+#define VIDEO_READ_PATH  "/home/zzs/zzs_shijue/RM20_infantry_vision/video_save/test energy speed/大符(顺).avi"
 #define VIDEO_WRITE_PATH  "/home/zzs/zzs_shijue/RM20_infantry_vision/video_save/a"
 #define VIDEO_SAVE_COLUMN   1440
 #define VIDEO_SAVE_ROW      840
@@ -52,6 +52,7 @@ typedef struct
     double    time_now;
     float     polar_angle_now;
     float     polar_angle_last;
+    float     stard_spd;
     float     spd;
     float     spd_kal1;
     float     spd_kal2;
@@ -111,12 +112,13 @@ typedef struct{
     e_vision_mode_t        mode;
     e_vision_mode_t        last_mode;
     bool                   is_big_fan;
+    bool                   is_mode_change;
 }s_detect_t;
 typedef enum{
    CCW = 2,
    CW  = 1
 }e_rotation_t;
-extern double plot_y1,plot_y2,plot_y3,plot_y4;
+extern double plot_y1,plot_y2,plot_y3,plot_y4,plot_y5,plot_y6,plot_y7,plot_y8;
 extern Mat plot_frame;
 #endif
 

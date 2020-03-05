@@ -82,6 +82,14 @@ void fan_param_init()
     fan_param.CENTER_R_CONTOUR_AREA_RATIO_MIN = 65;
     fan_param.CENTER_R_CONTOUR_INTERSETION_AREA_MIN = 50;
 
+    fan_param.PRE_SPEED_OFFSET = 75;
+    fan_param.PRE_SPEED_RATIO = 150;
+    fan_param.PRE_SLOPE_SACLE = 220;
+    fan_param.PRE_SPEED_PROBABILITY = 40;
+    fan_param.PRE_SLOPE_PROBABILITY = 20;
+    fan_param.PRE_TIME_PROBABILITY = 40;
+    fan_param.PRE_SLOPE_OFFSET = 200;
+    fan_param.PRE_SECTION_OFFSET = 260;
 }
 /* @Des:this function is to adjust the parameter
  * @param:type:
@@ -90,10 +98,13 @@ void fan_param_init()
  *         3--adjust the flow fans parameter
  *         4--adjust the flow strip parameter
  *         5--adjust the R parameter
+ *         6--adjust the predict parameter
  * @retval:
  */
 void fan::adjust_param(uint8_t type,GetLightBarMethod_ENUM method)
 {
+    if(!IS_CREATE_WINDOW)
+        return;
     switch(type)
     {
         case 1:
@@ -195,6 +206,19 @@ void fan::adjust_param(uint8_t type,GetLightBarMethod_ENUM method)
             createTrackbar("HW_RATIO_MIN", "R_param", &fan_param.CENTER_R_CONTOUR_HW_RATIO_MIN, 1000, trackbar_callback1);
             createTrackbar("AREA_RATIO_MIN", "R_param", &fan_param.CENTER_R_CONTOUR_AREA_RATIO_MIN, 100, trackbar_callback1);
             createTrackbar("INTERSETION", "R_param", &fan_param.CENTER_R_CONTOUR_INTERSETION_AREA_MIN, 300, trackbar_callback1);
+            break;
+         }
+        case 6:
+        {
+            namedWindow("Predict_param", WINDOW_NORMAL);
+            createTrackbar("SPEED_MID_VAL", "Predict_param", &fan_param.PRE_SPEED_OFFSET, 200, trackbar_callback1);
+            createTrackbar("SPEED_RATIO", "Predict_param", &fan_param.PRE_SPEED_RATIO, 300, trackbar_callback1);
+            createTrackbar("SLOPE_MAX_VAL", "Predict_param", &fan_param.PRE_SLOPE_SACLE, 300, trackbar_callback1);
+            createTrackbar("SLOPE_OFFSET", "Predict_param", &fan_param.PRE_SLOPE_OFFSET, 500, trackbar_callback1);
+            createTrackbar("SPEED_PROBABILITY", "Predict_param", &fan_param.PRE_SPEED_PROBABILITY, 100, trackbar_callback1);
+            createTrackbar("SLOPE_PROBABILITY", "Predict_param", &fan_param.PRE_SLOPE_PROBABILITY, 100, trackbar_callback1);
+            createTrackbar("TIME_PROBABILITY", "Predict_param", &fan_param.PRE_TIME_PROBABILITY, 100, trackbar_callback1);
+            createTrackbar("SECTION_OFFSET", "Predict_param", &fan_param.PRE_SECTION_OFFSET, 500, trackbar_callback1);
             break;
          }
         default:

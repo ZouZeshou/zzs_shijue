@@ -74,6 +74,14 @@ typedef struct
     int FLOW_STRIP_CONTOUR_AREA_RATIO_MIN;//流动条占旋转矩形面积比最小值
     int FLOW_STRIP_CONTOUR_INTERSETION_AREA_MIN;//流动条占旋转矩形面积比最小值
 
+    int PRE_SPEED_OFFSET;
+    int PRE_SPEED_RATIO;
+    int PRE_SLOPE_SACLE;
+    int PRE_SPEED_PROBABILITY;
+    int PRE_SLOPE_PROBABILITY;
+    int PRE_TIME_PROBABILITY;
+    int PRE_SLOPE_OFFSET;
+    int PRE_SECTION_OFFSET;
 }fan_param_t;
 void fan_param_init();
 

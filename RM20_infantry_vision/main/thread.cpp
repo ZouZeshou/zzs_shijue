@@ -5,7 +5,7 @@
 #include "main/thread.h"
 #include "plot/qcustomplot.h"
 #include "plot/mainwindow.h"
-double plot_y1,plot_y2,plot_y3,plot_y4;
+double plot_y1,plot_y2,plot_y3,plot_y4,plot_y5,plot_y6,plot_y7,plot_y8;
 Mat plot_frame;
 /* @Des:this function is thread of get image
  * @param:
@@ -26,7 +26,7 @@ void task::get_image()
         c_frame.video_to_picture(m_frame,PICTURE_SAVE_PATH,20,IS_TRANS_VIDEO_PICTURE);
         if(!m_frame.empty())
             c_frame.get_img_fps();
-        this_thread::sleep_until(time_now+chrono::microseconds(4800));
+        this_thread::sleep_until(time_now+chrono::microseconds(4500));
     }
 }
 /* @Des:this function is to thread of deal image
@@ -54,14 +54,16 @@ int task::deal_image()
         {
             #ifndef NO_SERIAL_PORT
             c_interface.deal_msg_from_MCU();
+            s_detect = c_interface.m_detect;
             #endif
         }
         /******image process to find target *******************************/
         if( s_detect.mode == small_fan||s_detect.mode == big_fan)
         {/*attcak fanwheel*/
-            if(s_detect.last_mode != s_detect.mode)
+            if(s_detect.is_mode_change)
             {
                 c_frame.c_hik_camera.HIKsetExposure(c_frame.c_hik_camera.HIKhandle_,FAN_EXPOSURE);
+                c_fan.init();
             }
             else
             {
@@ -73,7 +75,7 @@ int task::deal_image()
         }
         else
         {/*attack robot*/
-            if(s_detect.last_mode != s_detect.mode)
+            if(s_detect.is_mode_change)
             {
                 c_frame.c_hik_camera.HIKsetExposure(c_frame.c_hik_camera.HIKhandle_,ROBOT_EXPOSURE);
             }
@@ -114,10 +116,15 @@ int task::deal_image()
         }
         if(m_plot_flag)
         {
-//            plot_y1 = static_cast<double>(c_fan.s_fan_spd.spd);
-//            plot_y2 = static_cast<double>(c_fan.s_fan_spd.spd_kal1);
-            plot_y3 = static_cast<double>(c_fan.m_test_angle1);
-            plot_y4 = static_cast<double>(c_fan.m_test_angle2);
+            plot_y1 = static_cast<double>(c_fan.m_last_sec);
+//            plot_y2 = static_cast<double>(c_fan.m_predict_angle);
+//            plot_y3 = static_cast<double>(c_fan.m_test_angle1);
+//            plot_y4 = static_cast<double>(c_fan.m_test_angle2);
+            plot_y5 = static_cast<double>(c_fan.m_state*10);
+            plot_y6 = static_cast<double>(c_fan.m_predict_angle);
+            plot_y7 = static_cast<double>(c_fan.m_test_angle1);
+            plot_y8 = static_cast<double>(c_fan.m_test_angle2);
+//            cout<<"c_fan.m_state"<<c_fan.m_state<<endl;
             if(s_detect.mode == robot)
                 plot_frame = c_armor_detect.m_debug_img;
             else

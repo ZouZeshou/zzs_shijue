@@ -8,11 +8,6 @@
 #include "fanwheel/fanwheel.hpp"
 #include "fanwheel/fan.hpp"
 #include "fanwheel/fan_middleware.h"
-class plot_class
-{
-public:
-    MainWindow                              *w_;
-};
 class task
 {
 public:
