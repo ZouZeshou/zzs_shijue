@@ -1,0 +1,49 @@
+1.发送的信息为23位,帧头1位,有效数据为20位,最后两位为CRC校验位:
+	/*帧头*/
+	tdata[0] = 0xA5;
+	/*目标点的x坐标*/
+	tdata[1] = data.adjustX.uc[0];
+	tdata[2] = data.adjustX.uc[1];
+	tdata[3] = data.adjustX.uc[2];
+	tdata[4] = data.adjustX.uc[3];
+	/*目标点的y坐标*/
+	tdata[5] = data.adjustY.uc[0];
+	tdata[6] = data.adjustY.uc[1];
+	tdata[7] = data.adjustY.uc[2];
+	tdata[8] = data.adjustY.uc[3];
+	/*目标点的z坐标*/
+	tdata[9] = data.adjustZ.uc[0];
+	tdata[10] = data.adjustZ.uc[1];
+	tdata[11] = data.adjustZ.uc[2];
+	tdata[12] = data.adjustZ.uc[3];
+	/*图像处理帧率*/
+	tdata[13] = data.fps;
+	/*识别到目标的帧率*/
+	tdata[14] = data.valid_fps;
+	/*是否识别到目标 1-是 0-否*/
+	tdata[15] = data.is_find_target;
+	/*是否是大装甲 1-是 0-否*/
+	tdata[16] = data.is_big_armor;
+	/*灯条实际长度(60)/图上长度,反应灯条长度的一个变量*/
+	tdata[17] = data.trans_ratio.uc[0];
+	tdata[18] = data.trans_ratio.uc[1];
+	tdata[19] = data.trans_ratio.uc[2];
+	tdata[20] = data.trans_ratio.uc[3];
+	/*CRC16校验位*/
+	Append_CRC16_Check_Sum(tdata,23);
+
+2.接收的消息为7位,帧头1位,数据位3位,CRC校验位1位,帧尾2位:
+	/*帧头*/
+	rdata[0] = 0xA0;
+	/*机器人id*/
+	rdata[1] = id;
+	/*识别的目标种类 1-机器人 2-小符 3-大符 4-小陀螺(功能尚未开放)*/
+	rdata[2] = type;
+	/*保留*/
+	rdata[3] = Null;
+	/*CRC8校验位*/
+	Append_CRC8_Check_Sum(rdata,5);
+	/*帧尾*/
+	rdata[5] = '\r';
+	rdata[6] = '\n';
+

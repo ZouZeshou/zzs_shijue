@@ -14,7 +14,7 @@ public:
     void choose_frame_src(bool is_video,string video_read_path);
     Mat  get_frame();
     void get_img_fps();
-    int16_t calculate_framerate(bool is_find_target);
+    void calculate_framerate(s_vision_data *p_send);
     bool video_to_picture(Mat frame,string picture_save_path,uint8_t time_gap,bool is_transfer);
 public:
     TimeParam s_main_time;

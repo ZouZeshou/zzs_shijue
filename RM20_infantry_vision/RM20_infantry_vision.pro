@@ -19,7 +19,6 @@ SOURCES += \
     fanwheel/fan_middleware.cpp \
     fanwheel/get_binary.cpp \
     fanwheel/find_armor.cpp \
-    fanwheel/find_flow_strip_fan.cpp \
     fanwheel/find_flow_strip.cpp \
     fanwheel/find_center.cpp \
     fanwheel/get_predict.cpp \
@@ -35,10 +34,15 @@ SOURCES += \
     plot/mainwindow.cpp \
     plot/qcustomplot.cpp \
     armor_detect/get_target_armor.cpp \
-    fanwheel/predict_planA.cpp \
-    fanwheel/predict_planB.cpp \
-    fanwheel/predict_middleware.cpp \
-    fanwheel/get_speed.cpp
+    fanwheel/get_speed.cpp \
+    fanwheel/drv_predict.cpp \
+    fanwheel/drv_pre_planA.cpp \
+    fanwheel/drv_pre_planB.cpp \
+    fanwheel/find_fan.cpp \
+    fanwheel/get_state.cpp \
+    algorithm/src/fan_spd_filter.cpp \
+    fanwheel/fan_init.cpp \
+    armor_detect/armor_init.cpp
 
 
 LIBS += /usr/local/lib/libopencv_*\
@@ -72,7 +76,8 @@ HEADERS += \
     main/thread.h \
     armor_detect/armor_param.h \
     plot/mainwindow.h \
-    plot/qcustomplot.h
+    plot/qcustomplot.h \
+    algorithm/include/fan_spd_filter.h
 
 
 INCLUDEPATH += $$PWD/get_frame/camera/include

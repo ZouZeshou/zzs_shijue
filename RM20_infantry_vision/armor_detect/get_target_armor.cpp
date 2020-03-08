@@ -78,14 +78,7 @@ uint armor_detect::get_armors(void)
  */
 bool armor_detect::get_target_armor(void)
 {
-    if (m_useful_armors.size() == 0 )
-    {
-        m_target_center.x = m_target_center.y = 0;
-        m_target_center.z = 0.0f;
-        m_targetinfo.TargetType = NoneArmor;
-        return false;
-    }
-    else if(m_useful_armors.size() >= 1)
+    if(m_useful_armors.size() >= 1)
     {
         if(m_useful_armors.size() >= 2)
         {

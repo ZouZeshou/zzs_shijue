@@ -35,7 +35,7 @@ private:
     Ui::MainWindow *ui;
     QString demoName;
     QTimer dataTimer;
-    QVector<double> qv_x, qv_y, qv_t1, qv_t2,qv_x3,qv_x4,qv_t3,qv_t4;
+    QVector<double> qv_x, qv_y, qv_t1, qv_t2,qv_x3,qv_x4,qv_x5,qv_x6,qv_x7,qv_x8,qv_t3,qv_t4,qv_t5,qv_t6,qv_t7,qv_t8;
     double programe_start_time;
     int history_num_ = 5000;
     int range_num_ = 5;

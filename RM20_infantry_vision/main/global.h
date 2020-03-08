@@ -14,7 +14,7 @@ using namespace cv;
 /*save video*/
 #define PICTURE_PATH     "/home/zzs/zzs_shijue/RM20_infantry_vision/picture_save/b4.PNG"
 #define PICTURE_SAVE_PATH  "/home/zzs/zzs_shijue/RM20_infantry_vision/picture_save/b"
-#define VIDEO_READ_PATH  "/home/zzs/zzs_shijue/RM20_infantry_vision/video_save/test energy speed/大符(逆).avi"
+#define VIDEO_READ_PATH  "/media/zzs/225C-F971/机器人/videosave1/blue_car.avi"
 #define VIDEO_WRITE_PATH  "/home/zzs/zzs_shijue/RM20_infantry_vision/video_save/a"
 #define VIDEO_SAVE_COLUMN   1440
 #define VIDEO_SAVE_ROW      840
@@ -24,7 +24,7 @@ using namespace cv;
 #define pixelCenterX       720
 #define pixelCenterY       420
 /*debug define*//*the following definition should colse when works for competition*/
-#define DEBUG_PLOT
+//#define DEBUG_PLOT
 #define NO_SERIAL_PORT
 /*debug constant value*//* the following definition should all be 0 when works for competition*/
 #define IS_WRITE_VIDEO          0   /*is turn on videowriter*/
@@ -32,12 +32,12 @@ using namespace cv;
 #define IS_FROM_VIDEO           1   /*choose the image source 0--from camera 1--from local video*/
 #define IS_USE_PICTRUE          0   /*choose the picture as debug source*/
 #define IS_SHOW_PICTURE         1   /*is show the debug pictrue */
-#define IS_CREATE_WINDOW        0   /*is create the debug windows*/
+#define IS_CREATE_WINDOW        1   /*is create the debug windows*/
 #define IS_SHOW_TARGRT_DATA     0   /*is show the target message(x,y,z)*/
 #define IS_RESET_MODE           1   /*is reset the mode by hand*/
 /*******************************/
-#define DEFAULT_MODE            big_fan
-#define DEFAULT_COLOR           RED
+#define DEFAULT_MODE            robot
+#define DEFAULT_COLOR           BLUE
 typedef struct
 {
     double previousTime;
@@ -52,6 +52,7 @@ typedef struct
     double    time_now;
     float     polar_angle_now;
     float     polar_angle_last;
+    float     stard_spd;
     float     spd;
     float     spd_kal1;
     float     spd_kal2;
@@ -69,8 +70,8 @@ typedef enum{
     GREEN = 2
 }color_ENUM;
 typedef enum{
-    BigArmor = 0,
-    SmallArmor = 1,
+    BigArmor = 1,
+    SmallArmor = 0,
     NoneArmor = 6
 }TargetTypeEnum;
 typedef struct{
@@ -96,7 +97,8 @@ typedef struct{
     float2uchar adjustY;
     float2uchar adjustZ;
     float2uchar trans_ratio;
-    int16uchar  valid_fps;
+    uint8_t     fps;
+    uint8_t     valid_fps;
     uint8_t     is_big_armor;
     uint8_t     is_find_target;
 }s_vision_data;
@@ -111,12 +113,13 @@ typedef struct{
     e_vision_mode_t        mode;
     e_vision_mode_t        last_mode;
     bool                   is_big_fan;
+    bool                   is_mode_change;
 }s_detect_t;
 typedef enum{
    CCW = 2,
    CW  = 1
 }e_rotation_t;
-extern double plot_y1,plot_y2,plot_y3,plot_y4;
+extern double plot_y1,plot_y2,plot_y3,plot_y4,plot_y5,plot_y6,plot_y7,plot_y8;
 extern Mat plot_frame;
 #endif
 

@@ -4,16 +4,7 @@ the second part
 #include "armor_detect/armor_detect.h"
 #include "armor_detect/armor_param.h"
 #include "algorithm/include/usr_math.h"
-kalman1_state                     g_angle_projection_kf;
-kalman1_state                     g_angle_cos_kf;
 void gray1_bar_callback(int, void*){};
-
-
-armor_detect::armor_detect(){
-    kalman1_init(&g_angle_projection_kf, 0, 200, 5, 50);
-    armor_param_init();
-};
-armor_detect::~armor_detect(){};
 /* @Des:this function is to get the target center of armor
  * @param:img--raw image
  * @retval:
@@ -28,7 +19,7 @@ bool armor_detect::run(Mat &src,color_ENUM color,GetLightBarMethod_ENUM method,b
     m_roi_rect.height = 840;//480
     m_roi_img = src(m_roi_rect);
     m_debug_img = m_roi_img.clone();
-    adjust_param(3,method);
+    adjust_param(0,method);
     get_binary_img(m_roi_img,color,method);/*true--debug*/
     if(get_lightbar(m_roi_img))
     {

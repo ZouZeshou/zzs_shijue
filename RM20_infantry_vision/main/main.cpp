@@ -12,6 +12,5 @@ int main()
     get_image.join();
     deal_image.join();
     //test.join();
-
     return 1;
 }

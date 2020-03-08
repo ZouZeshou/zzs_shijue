@@ -1,0 +1,81 @@
+装机时语言选择中文，计算机名字选择ubuntu，密码为ubuntu，开机不使用密码登录
+1. 设置--亮度和锁屏
+  关闭屏幕选择从不，把自动锁定关闭
+2. 设置--软件和更新
+  ubuntu软件--换源--选择其他站点--http://mirrors.aliyun.com/ubuntu
+3. 把本目录下装机文件拷贝到本地
+4. 安装Qt5.11.2
+  （1）给.run安装文件权限
+        sudo chmod 777 '/home/ubuntu/下载/qt-opensource-linux-x64-5.11.2.run'
+  （2）直接开终端，然后将.run文件拖入，按下enter执行安装即可（默认安装目录）
+  （3）安装完成后，给qtcreator执行权限
+        sudo chmod 777 '/home/ubuntu/Qt5.11.2/Tools/QtCreator/bin/qtcreator'
+  （4）给桌面执行QTcreator脚本可执行权限
+        sudo chmod 777 '/home/ubuntu/桌面/StartQtCreator.sh'
+  （5） 之后执行直接将脚本脱进终端即可（前提是不需要手动输入sudo权限密码，具体实施见第6步）
+5. 安装opencv3.4.3
+  （1）sudo apt-get install cmake  
+  （2）sudo apt-get install build-essential libgtk2.0-dev libavcodec-dev libavformat-dev    libjpeg.dev libtiff4.dev libswscale-dev libjasper-dev 
+  （3）压缩文件，提取到此处
+       cd '/home/ubuntu/下载/opencv-3.4.3'
+       /* 新建编译文件夹*/
+       mkdir release
+       cd release
+       /* 执行cmake */
+       cmake ..
+  （4）make / make -j4/ make -j8 （后面的参数-jx， x是指系统的线程数）
+  （5）sudo make install
+  （6）把步兵视觉代码中environment下面的hik库文件夹（/home/ubuntu/shanjiayao/RM19_InfantryVision/environments/lib/hik_vision）复制到/esr/local/lib下
+  （7）更改环境文件
+       sudo gedit /etc/ld.so.conf  
+       在最后添加 
+       /usr/local/lib
+       /usr/local/lib/hik_vision
+   (8) sudo ldconfig
+  （9）sudo gedit /etc/bash.bashrc
+       在最后添加
+       PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig  
+       export PKG_CONFIG_PATH
+  （10）source /etc/bash.bashrc
+  （11）更新
+        sudo updatedb
+6. 取消手动输入sudo密码
+  （1）执行
+        sudo gedit /etc/sudoers
+  （2）将下面内容
+	# Allow members of group sudo to execute any command
+	%sudo	ALL=(ALL:ALL) ALL
+       替换为
+	# Allow members of group sudo to execute any command
+	#%sudo	ALL=(ALL:ALL) ALL
+	%sudo	ALL=NOPASSWD:ALL
+       保存退出即可
+7. 设置电源按键一键关机
+  （1）执行
+	sudo gedit /etc/acpi/events/powerbtn
+  （2）将文件中
+	action=/etc/acpi/powerbtn.sh
+	换成
+	#action=/etc/acpi/powerbtn.sh
+	action=/sbin/poweroff
+	保存退出
+	然后重启即可 
+8. 安装eigen3库
+  （1）联网下载
+	sudo apt install libeigen3-dev
+  （2）更改路径
+	sudo cp -r '/usr/include/eigen3/Eigen' '/usr/local/include'
+9.添加开机运行脚本
+  （0）首先，将shangjiayao文件夹下四个启动脚本给予可执行权限
+	sudo chmod 777 '/home/ubuntu/shanjiayao/restart_final.sh' '/home/ubuntu/shanjiayao/startInfantryVision.sh' '/home/ubuntu/shanjiayao/StartVision.sh' '/home/ubuntu/shanjiayao/watchdog.sh'
+  （1）左上角的搜索计算机，找到‘启动应用程序’
+  （2）然后添加， 在脚本路径之前加上
+	gnome-terminal -x sh （注意，sh后面有一个空格）
+  （3）举例如下
+
+
+note：
+1.将内容复制到终端里
+ctrl+shift+v
+2.
+ 

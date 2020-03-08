@@ -22,6 +22,7 @@ void interface::send_msg_to_MCU(s_vision_data s_send)
 void interface::deal_msg_from_MCU(void)
 {
     m_serial.get_msg_from_MCU();
+    m_detect.last_mode = m_detect.mode;
     if(m_serial.m_receive_data.id > 10)
     {
         m_detect.color = RED;
@@ -47,5 +48,8 @@ void interface::deal_msg_from_MCU(void)
         default:
             break;
     }
-
+    if(m_detect.last_mode != m_detect.mode)
+        m_detect.is_mode_change = true;
+    else
+        m_detect.is_mode_change = false;
 }

@@ -25,6 +25,7 @@ public:
     armor_detect();
     ~armor_detect();
     bool run(Mat &src,color_ENUM color,GetLightBarMethod_ENUM method,bool is_show_image);
+    void init(void);
     void get_binary_img(Mat &src,color_ENUM color,GetLightBarMethod_ENUM method);
     bool get_lightbar(Mat src);
     uint get_armors(void);
@@ -43,12 +44,8 @@ private:
     Rect                                    m_roi_rect;
     Mat                                     m_roi_img;
     bool                                    m_is_show_img;
-
+    kalman1_state                           m_angle_projection_kf;
 };
-
-
-extern kalman1_state                        g_angle_projection_kf;
-extern kalman1_state                        g_angle_cos_kf;
 void gray1_bar_callback(int, void*);
 void lightbar_erode_dilate(Mat & src);
 bool isValidLightbarContour(const vector<Point> &armor_contour);

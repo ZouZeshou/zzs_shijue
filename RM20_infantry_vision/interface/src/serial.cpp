@@ -45,8 +45,8 @@ void Serial::sendAdjustValue(const s_vision_data &data)
     tdata[11] = data.adjustZ.uc[2];
     tdata[12] = data.adjustZ.uc[3];
 
-    tdata[13] = data.valid_fps.uc[0];
-    tdata[14] = data.valid_fps.uc[1];
+    tdata[13] = data.fps;
+    tdata[14] = data.valid_fps;
     tdata[15] = data.is_find_target;
     tdata[16] = data.is_big_armor;
 

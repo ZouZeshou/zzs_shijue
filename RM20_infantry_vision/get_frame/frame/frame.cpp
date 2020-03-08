@@ -94,7 +94,7 @@ void frame::get_img_fps()
  * @param:no
  * @retval:void
  */
-int16_t frame::calculate_framerate(bool is_find_target)
+void frame::calculate_framerate(s_vision_data *p_send)
 {
     static int  init_mark = 0;
     if(init_mark==0)
@@ -109,20 +109,20 @@ int16_t frame::calculate_framerate(bool is_find_target)
     else
     {
         s_main_time.fps++;
-        if(is_find_target)
+        if(p_send->is_find_target)
             s_main_time.valid_fps++;
         s_main_time.currentTime = static_cast<double>(getTickCount());
         if((s_main_time.currentTime - s_main_time.previousTime) / getTickFrequency() > 1.0)
         {
             s_main_time.previousTime = s_main_time.currentTime;
-            s_main_time.send_fps = s_main_time.valid_fps ;
+            p_send->valid_fps = static_cast<uint8_t>(s_main_time.valid_fps);
+            p_send->fps = static_cast<uint8_t>(s_main_time.fps);
             std::cout << "fps: " << s_main_time.fps << std::endl;
             s_main_time.fps = 0;
             std::cout << "valid_fps: " << s_main_time.valid_fps << std::endl;
             s_main_time.valid_fps = 0;
         }
     }
-    return static_cast<int16_t>(s_main_time.send_fps);
 }
 /* @Des:this function is to transfer video to picture
  * @param:is_video -- frame frome camera or video(camera --true video--false)

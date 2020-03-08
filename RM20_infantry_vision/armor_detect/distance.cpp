@@ -55,7 +55,7 @@ void armor_detect::get_armor_depth(color_ENUM color,GetLightBarMethod_ENUM metho
     }
     float project_ang = 100.0f * (m_useful_lightbars[1].size.height -\
                                     m_useful_lightbars[0].size.height) / m_useful_armors[0].size.height;
-    project_ang = kalman1_filter(&g_angle_projection_kf, project_ang);
+    project_ang = kalman1_filter(&m_angle_projection_kf, project_ang);
     float projection_out = 0.0411f*(fabs(project_ang))*(fabs(project_ang)) +\
                             14.0f * (fabs(project_ang)) + 8.6f;
     /* calculate the width/height to find the depth and whether it is small armor */
