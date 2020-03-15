@@ -1,4 +1,4 @@
-1.发送的信息为23位,帧头1位,有效数据为20位,最后两位为CRC校验位:
+﻿1.发送的信息为23位,帧头1位,有效数据为20位,最后两位为CRC校验位:
 	/*帧头*/
 	tdata[0] = 0xA5;
 	/*目标点的x坐标*/
@@ -24,11 +24,11 @@
 	tdata[15] = data.is_find_target;
 	/*是否是大装甲 1-是 0-否*/
 	tdata[16] = data.is_big_armor;
-	/*灯条实际长度(60)/图上长度,反应灯条长度的一个变量*/
-	tdata[17] = data.trans_ratio.uc[0];
-	tdata[18] = data.trans_ratio.uc[1];
-	tdata[19] = data.trans_ratio.uc[2];
-	tdata[20] = data.trans_ratio.uc[3];
+	/*扇叶角度*/
+	tdata[17] = data.fan_angle.uc[0];
+	tdata[18] = data.fan_angle.uc[1];
+	tdata[19] = data.fan_angle.uc[2];
+	tdata[20] = data.fan_angle.uc[3];
 	/*CRC16校验位*/
 	Append_CRC16_Check_Sum(tdata,23);
 
